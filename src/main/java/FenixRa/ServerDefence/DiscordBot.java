@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class DiscordBot {
-    public HashMap<UUID, String> uuidCodeMap = new HashMap<>();
-    public HashMap<UUID, String> uuidIdMap = new HashMap<>();
-    public List<String> not_verified = new ArrayList<>();
+    protected HashMap<UUID, String> uuidCodeMap = new HashMap<>();
+    protected HashMap<UUID, String> uuidIdMap = new HashMap<>();
+    protected List<String> not_verified = new ArrayList<>();
     private Main plugin;
     private Guild guild;
     private JDA jda;
@@ -125,7 +125,7 @@ public class DiscordBot {
         }, 10L);
     }
 
-    public void sendApproveMessage(Player player, String dsId) {
+    protected void sendApproveMessage(Player player, String dsId) {
         try {
             if(not_verified.contains(player.getName())) return;
             not_verified.add(player.getName());
@@ -168,7 +168,7 @@ public class DiscordBot {
 
     }
 
-    public String createVerificationCode(Player target, String userID) {
+    protected String createVerificationCode(Player target, String userID) {
         String code = "SD_VER-" + new Random(System.nanoTime()).nextInt(800000) + 200000 + "kghcfj";
 
         uuidCodeMap.put(target.getUniqueId(), code);
@@ -177,7 +177,7 @@ public class DiscordBot {
         return code;
     }
 
-    public void VerifyFailed(Player player, String cause) {
+    protected void VerifyFailed(Player player, String cause) {
         if (!uuidCodeMap.containsKey(player.getUniqueId()) || !uuidIdMap.containsKey(player.getUniqueId())) {
             Bukkit.getConsoleSender().sendMessage(LangKeys.PREFIX + "§cTried to send ds verifyFail message for user which is not verifying");
             return;

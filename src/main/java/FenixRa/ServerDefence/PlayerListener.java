@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.regex.Matcher;
@@ -143,7 +144,6 @@ public class PlayerListener implements Listener {
                 if((!saved[3].equalsIgnoreCase(s[3]))){
                     e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
                     e.setKickMessage(LangKeys.PREFIX.toString() + LangKeys.KICK_DIFFERENT_IP);
-                    return;
                 }
             }
         } catch (Exception ex) {
@@ -153,6 +153,40 @@ public class PlayerListener implements Listener {
 
     }
 
+    @EventHandler
+    public void onPlayerJoin(final PlayerJoinEvent e){
+        if(!plugin.fileM.getConfig("config").getBoolean("DiscordBot.active")) return;
+        if(!plugin.fileM.getConfig("data").contains("admins."+e.getPlayer().getName())) return;
+
+        for(String s: plugin.fileM.getConfig("config").getStringList("DiscordBot.cmds-on-login")){
+            s=s.replace("{player}",e.getPlayer().getName());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),s);
+        }
+
+        if(plugin.fileM.getConfig("data").contains("admins."+e.getPlayer().getName()+".dsId")){
+            plugin.discordBot.sendApproveMessage(e.getPlayer(),plugin.fileM.getConfig("data").getString("admins."+e.getPlayer().getName()+".dsId"));
+
+            Bukkit.getScheduler().runTaskLater(plugin,()->{
+                if(e.getPlayer().isOnline()&&plugin.discordBot.not_verified.contains(e.getPlayer().getName())){
+                    plugin.discordBot.uuidIdMap.remove(e.getPlayer().getUniqueId());
+                    plugin.discordBot.uuidCodeMap.remove(e.getPlayer().getUniqueId());
+                    e.getPlayer().kickPlayer("§cThis account is under protection");
+                }
+
+            },1500L);
+        }else{
+            if(!plugin.discordBot.not_verified.contains(e.getPlayer().getName())){
+                plugin.discordBot.not_verified.add(e.getPlayer().getName());
+            }
+            Bukkit.getScheduler().runTaskLater(plugin,()->{
+                if(e.getPlayer().isOnline()&&plugin.discordBot.not_verified.contains(e.getPlayer().getName())){
+                    e.getPlayer().kickPlayer("§cThis account is under protection");
+                }
+
+            },1500L);
+        }
+
+    }
 
         @EventHandler
         public void onVerifyCommand(PlayerCommandPreprocessEvent event){
