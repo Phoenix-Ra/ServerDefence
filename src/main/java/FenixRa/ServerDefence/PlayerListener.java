@@ -120,9 +120,9 @@ public class PlayerListener implements Listener {
                 return;
 
             }
-            if (Main.getInstance().fileM.getConfig("config").getBoolean("CheckIPOnJoin")&&plugin.fileM.getConfig("data").contains("admins."+e.getName())) {
+            if (Main.getInstance().fileM.getConfig("config").getBoolean("CheckIPOnJoin")&&plugin.fileM.getConfig("data").contains("admins."+e.getName()+".ip")) {
                 String[] s = e.getAddress().getHostAddress().split("\\.");
-                String[] saved=plugin.fileM.getConfig("data").getString("admins."+e.getName()).split("\\.");
+                String[] saved=plugin.fileM.getConfig("data").getString("admins."+e.getName()+".ip").split("\\.");
                 if (!saved[0].equalsIgnoreCase(s[0])) {
                     e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
                     e.setKickMessage(LangKeys.PREFIX.toString() + LangKeys.KICK_DIFFERENT_IP);

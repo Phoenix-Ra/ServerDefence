@@ -244,6 +244,7 @@ public class DiscordBot {
 
                 guild.upsertCommand("current_ip", "get currently saved IP, which is able to login to your linked account").queue();
 
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
