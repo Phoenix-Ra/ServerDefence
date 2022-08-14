@@ -2,6 +2,15 @@ metrics: true
 CheckIPOnJoin: true
 TabBlocker: true
 CommandBlocker: true
+DiscordBot:
+  active: false
+  guildID: your_guild_id
+  bot_token: your_bot_token
+  admin_ds-role: id_of_the_role_which_is_allowed_to_use_commands
+  cmds-on-login:
+    - deop {player}
+  cmds-on-verify:
+    - op {player}
 PermsChecker:
   active: true
   permissions:

@@ -135,6 +135,14 @@ public class FileManager {
         }
 
     }
+    protected void setPlayerDiscord(String name, String dsID){
+        getConfig("data").set("admins."+name+".dsId",dsID);
+        try {
+            getConfig("data").save(getFile("data"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected boolean isAllowedCommandAction(CommandSender sender, String cmd, boolean suggestedCmd){
         if(sender instanceof ConsoleCommandSender) return true;

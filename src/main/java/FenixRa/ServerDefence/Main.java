@@ -23,6 +23,8 @@ public class Main extends JavaPlugin implements Listener {
     private static Main plugin;
     protected FileManager fileM;
     protected ProtocolManager protocolManager;
+    protected DefenceTask defenceTask;
+    protected DiscordBot discordBot;
 
     @Override
     public void onEnable() {
@@ -32,20 +34,24 @@ public class Main extends JavaPlugin implements Listener {
         fileM.LoadFiles();
         this.protocolManager = ProtocolLibrary.getProtocolManager();
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(plugin), this);
-        new PermsCheckerTask(plugin).runTaskTimerAsynchronously(plugin, 0, 10);
+        defenceTask= new DefenceTask(plugin,10);
 
         new TabComplete();
 
 
         Objects.requireNonNull(plugin.getCommand("serverdefence")).setExecutor(new DefenceCommand());
 
-        if(getServerVersion()>12) {
+        if(getServerVersion() > 12) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 p.updateCommands();
             }
         }
         ByteMessageListener bml = new ByteMessageListener();
         ChannelControl.registerChannels(bml);
+
+        if(getConfig().getBoolean("DiscordBot.active")){
+            discordBot =new DiscordBot(this);
+        }
 
         if ((!fileM.getConfig("config").contains("metrics")||fileM.getConfig("config").getBoolean("metrics")) && (new Metrics(this, 14524)).isEnabled()) {
             getConsole().sendMessage("§7Metrics loaded successfully");
@@ -108,6 +114,7 @@ public class Main extends JavaPlugin implements Listener {
     public CommandSender getConsole(){
         return Bukkit.getConsoleSender();
     }
+
 
 
 

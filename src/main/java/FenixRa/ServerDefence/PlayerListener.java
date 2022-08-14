@@ -153,4 +153,13 @@ public class PlayerListener implements Listener {
 
     }
 
+
+        @EventHandler
+        public void onVerifyCommand(PlayerCommandPreprocessEvent event){
+            if(event.getMessage().startsWith("/verify")) {
+                plugin.discordBot.verifyCommand(event);
+                event.setCancelled(true);
+            }
+        }
+
 }
