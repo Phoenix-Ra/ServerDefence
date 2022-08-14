@@ -66,6 +66,9 @@ public class Main extends JavaPlugin implements Listener {
         if(protocolManager!=null) {
             protocolManager.removePacketListeners(this);
         }
+        if(discordBot!=null){
+            discordBot.disable();
+        }
         getConsole().sendMessage("§eServerDefence§f has been disabled!");
     }
 
