@@ -265,9 +265,9 @@ public class DiscordBot {
                 EmbedBuilder eb = new EmbedBuilder();
                 final Member[] usr = new Member[1];
 
-                guild.retrieveMemberById(event.getUser().getId()).queue(user -> usr[0] = user);
-                Bukkit.getScheduler().runTaskLater(plugin, () -> {
-
+                guild.retrieveMemberById(event.getUser().getId()).queue(user ->
+                {
+                    usr[0] = user;
                     if (cmd.equalsIgnoreCase("verify")) {
                         if (plugin.fileM.getConfig("config").contains("DiscordBot.admin_ds-role") &&
                                 usr[0].getRoles().stream().filter(role ->
@@ -392,7 +392,8 @@ public class DiscordBot {
                         event.replyEmbeds(eb.build()).queue();
                     }
 
-                }, 10);
+                }
+                );
 
             } catch (Exception e) {
                 EmbedBuilder eb = new EmbedBuilder();
@@ -404,7 +405,6 @@ public class DiscordBot {
 
                 e.printStackTrace();
             }
-
 
         }
     }
