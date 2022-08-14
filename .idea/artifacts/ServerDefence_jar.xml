@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ServerDefence:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/ServerDefence_jar</output-path>
-    <root id="archive" name="ServerDefence.jar">
-      <element id="module-output" name="ServerDefence" />
-    </root>
-  </artifact>
-</component>
