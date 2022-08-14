@@ -9,4 +9,5 @@ dependency-reduced-pom.xml
 
 ### IntelliJ
 .idea
+target
 *.iml
