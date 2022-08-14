@@ -22,11 +22,11 @@ public class FileManager {
         try {
             //config
             FileConfiguration configuration;
-            File file = files.put("config", new File(Main.getInstance().getDataFolder(), "config.yml"));
-            assert file != null;
+            File file = new File(Main.getInstance().getDataFolder(), "config.yml");
+            files.put("config",file);
             if(file.exists() && !file.isDirectory()) {
-                configuration = configs.put("config", YamlConfiguration.loadConfiguration(file));
-                assert configuration != null;
+                configuration = YamlConfiguration.loadConfiguration(file);
+                configs.put("config",configuration);
                 if(configuration.contains("adminsOnlyPerms")&&!configuration.contains("PermsChecker.permissions")){
                     Main.getInstance().getConsole().sendMessage("§c[ServerDefence] Found outdated adminsOnlyPerms setting in config.yml, changing it to PermsChecker...");
                     configuration.set("PermsChecker.active",true);
@@ -41,48 +41,51 @@ public class FileManager {
 
 
             //lang
-            file = files.put("lang",new File(Main.getInstance().getDataFolder(), "lang.yml"));
-            assert file != null;
+            file = new File(Main.getInstance().getDataFolder(), "lang.yml");
+            files.put("lang",file);
             if(file.exists() && !file.isDirectory()) {
                 configs.put("lang",YamlConfiguration.loadConfiguration(file));
             }else {
-                configuration = configs.put("lang",loadFromResource("lang.yml", file));
+                configuration = loadFromResource("lang.yml", file);
+                configs.put("lang",configuration);
                 assert configuration != null;
                 configuration.save(file);
             }
 
             //blocked-cmds.yml
-            file = files.put("cmd",new File(Main.getInstance().getDataFolder(), "blocked-cmds.yml"));
-            assert file != null;
+            file = new File(Main.getInstance().getDataFolder(), "blocked-cmds.yml");
+            files.put("cmd",file);
             if(file.exists() && !file.isDirectory()) {
                 configs.put("cmd", YamlConfiguration.loadConfiguration(file));
             }else {
-                configuration=configs.put("cmd", loadFromResource("blocked-cmds.yml", file));
+                configuration = loadFromResource("blocked-cmds.yml", file);
+                configs.put("cmd",configuration);
                 assert configuration != null;
                 configuration.save(file);
             }
 
             //tab
-            file = files.put("tab",new File(Main.getInstance().getDataFolder(), "tab_blocked-cmds.yml"));
-            assert file != null;
+            file = new File(Main.getInstance().getDataFolder(), "tab_blocked-cmds.yml");
+            files.put("tab",file);
             if(file.exists() && !file.isDirectory()) {
                 configs.put("tab", YamlConfiguration.loadConfiguration(file));
             }else {
-                configuration=configs.put("tab",  loadFromResource("tab_blocked-cmds.yml", file));
+                configuration = loadFromResource("tab_blocked-cmds.yml", file);
+                configs.put("tab",configuration);
                 assert configuration != null;
                 configuration.save(file);
             }
 
 
             //data
-            file = files.put("data",new File(Main.getInstance().getDataFolder(), "data.yml"));
-            assert file != null;
+            file = new File(Main.getInstance().getDataFolder(), "data.yml");
+            files.put("data",file);
             if(file.exists() && !file.isDirectory()) {
                 configs.put("data", YamlConfiguration.loadConfiguration(file));
             }else {
                 if(!file.createNewFile()) throw new Exception("Couldn't create file data.yml");
-                configuration=configs.put("data", YamlConfiguration.loadConfiguration(file));
-                assert configuration != null;
+                configuration = YamlConfiguration.loadConfiguration(file);
+                configs.put("data",configuration);
                 configuration.save(file);
             }
         }catch (Exception e){
@@ -118,7 +121,7 @@ public class FileManager {
 
 
     protected void setPlayerAdmin(String name, String ip){
-        getConfig("data").set("admins."+name,ip);
+        getConfig("data").set("admins."+name+".ip",ip);
         try {
             getConfig("data").save(getFile("data"));
         } catch (IOException e) {
@@ -127,7 +130,7 @@ public class FileManager {
     }
 
     protected void removePlayerAdmin(String name){
-        getConfig("data").set("admins."+name,null);
+        getConfig("data").set("admins."+name+".ip",null);
         try {
             getConfig("data").save(getFile("data"));
         } catch (IOException e) {

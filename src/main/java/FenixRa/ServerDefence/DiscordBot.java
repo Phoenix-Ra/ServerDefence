@@ -43,13 +43,12 @@ public class DiscordBot {
 
 
     private void initialize(Main main) {
-        Main.getInstance().getConsole().sendMessage(LangKeys.PREFIX + "§7Initializing DefenceBot for a Discord");
+        Main.getInstance().getConsole().sendMessage(LangKeys.PREFIX + "§7Initializing DiscordBot");
         this.plugin = main;
         if (!startBot()) {
             Main.getInstance().getConsole().sendMessage(LangKeys.PREFIX + "§cDiscordBot: Failed to start");
             return;
         }
-        new DiscordBot(plugin);
         listener1=new CommandReceivedListener();
         listener2=new ButtonClickedListener();
         listener3=new ReadyListener();
