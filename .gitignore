@@ -11,3 +11,6 @@ dependency-reduced-pom.xml
 .idea
 target
 *.iml
+/.idea/
+/out/
+/target/
