@@ -1,0 +1,63 @@
+metrics: true
+CheckIPOnJoin: true
+TabBlocker: true
+CommandBlocker: true
+PermsChecker:
+  active: true
+  permissions:
+  - '*'
+  - server_defence.admin
+FixSyntax:
+  active: true
+  whitelist-cmds:
+  - /serverdefence
+
+modsBlocker:
+  fabric:
+    enabled: true
+    punishment:
+    - kick {player} &cFabric usage detected
+  forge:
+    enabled: true
+    punishment:
+    - kick {player} &cForge usage detected
+  liteLoader:
+    enabled: true
+    punishment:
+    - kick {player} &cLiteLoader usage detected
+  rift:
+    enabled: true
+    punishment:
+    - kick {player} &cRift usage detected
+  winterWare:
+    enabled: true
+    punishment:
+    - kick {player} &cWinterWare usage detected
+  vape:
+    enabled: true
+    punishment:
+    - kick {player} &cVape usage detected
+  hyperium:
+    enabled: true
+    punishment:
+    - kick {player} &cHyperium usage detected
+  pixelClient:
+    enabled: true
+    punishment:
+    - kick {player} &cPixelClient usage detected
+  lunarClient:
+    enabled: true
+    punishment:
+    - kick {player} &cLunarClient usage detected
+  emc:
+    enabled: true
+    punishment:
+    - kick {player} &cEmc usage detected
+  schematica:
+    enabled: true
+  5zig:
+    enabled: true
+  betterSprinting:
+    enabled: true
+  worldDownloader:
+    enabled: true

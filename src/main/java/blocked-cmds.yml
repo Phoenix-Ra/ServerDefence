@@ -1,0 +1,13 @@
+cmds:
+  - /?
+  - /help
+  - /about
+  - /ver
+  - /pl
+  - /plugins
+  - /op
+  - /deop
+  - /save-all
+permission-only:
+  admin:
+    - /kick

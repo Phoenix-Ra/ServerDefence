@@ -1,0 +1,5 @@
+console_only_cmd: §4ОШИБКА! §7Команда заблокирована
+kick_permission: '&fНапишите нам: &evk.com/prime_space'
+kick_op: '&cВас кикает?&f Напишите нам: &evk.com/prime_space'
+kick_donated: '&cЧтобы войти в аккаунт вам нужно написать нам, пишите сюда: &evk.com/prime_space'
+kick-incorrect-pass: '&cНеверный код'

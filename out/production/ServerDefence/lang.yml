@@ -1,0 +1,6 @@
+prefix: '&7[&4ServerDefence&7] '
+console_only_cmd: '&cCommand is blocked'
+kick_permission: '&cYou are not allowed to have these permissions!'
+kick_op: '&cYou are not allowed to have OP!'
+kick_already_online: '&cPlayer with your nickname is already connected'
+kick_different_ip: '&cThis account is protected  IF YOU ARE AN ADMIN WRITE /sd help'

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spigot-1.19">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../1/archives/primeSpace/plugins/dependencies/SpigorCoreBuild/spigot-1.19.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

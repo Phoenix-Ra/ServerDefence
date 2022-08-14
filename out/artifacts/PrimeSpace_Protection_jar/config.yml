@@ -1,0 +1,57 @@
+forceCheckOnJoin: false
+server-name: survival
+ops:
+- Megidora
+- Mavor
+- Prlzrack
+- Shidi
+- EaSt
+- seesaaww
+- Nagisa_kyn_
+- Las_Noches
+- ZevsYT
+- Fenixx
+- Ashvener
+- Tailanmoon
+- Sathen
+- Niko_craft
+- Kirito_Ken
+- Shido
+- Hentai_lovell
+- Ryback01
+- tezist
+- Megidora
+ips:
+- 88:ZevsYT
+opsOnlyPerms:
+- '*'
+- essentials.*
+- worldedit.*
+- worldguard.*
+- advancedban.*
+FixSyntax:
+  active: true
+  whitelist-plugins:
+  - PrimeSpace_BanSystem
+donationProtect:
+  enabled: true
+  donaters:
+  - Dangerous
+  - Be3_Pa3BaNa
+  - cadmiral
+  - FOKS_Bloodbath
+  - gamemode_6352k
+  passwords:
+    Fenixx: DJhf9wj332
+    Dangerous: Hrty2398dja
+    Be3_Pa3BaNa: UH893q230c
+    cadmiral: lkhyv21g4r8
+    FOKS_Bloodbath: rjqhjFHor
+    gamemode_6352k: oif1e207ns
+MySql:
+  host: 188.165.144.26:3306
+  db: s11_protection
+  user: u11_XFGooU2PCV
+  password: 6p=ZYCd@FgYiIeXWKxZLU=9s
+  table: bungeeAuth
+isAuthServer: false
