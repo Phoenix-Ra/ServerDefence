@@ -130,7 +130,7 @@ public class FileManager {
     }
 
     protected void removePlayerAdmin(String name){
-        getConfig("data").set("admins."+name+".ip",null);
+        getConfig("data").set("admins."+name,null);
         try {
             getConfig("data").save(getFile("data"));
         } catch (IOException e) {
