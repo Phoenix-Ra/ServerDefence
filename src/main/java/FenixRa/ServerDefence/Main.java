@@ -2,12 +2,11 @@ package FenixRa.ServerDefence;
 
 
 import FenixRa.ServerDefence.other.Metrics;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.UnknownDependencyException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -22,9 +21,9 @@ import java.util.Objects;
 public class Main extends JavaPlugin implements Listener {
     private static Main plugin;
     protected FileManager fileM;
-    protected ProtocolManager protocolManager;
     protected DefenceTask defenceTask;
     protected DiscordBot discordBot;
+    private TabComplete tabComplete;
 
     @Override
     public void onEnable() {
@@ -32,12 +31,11 @@ public class Main extends JavaPlugin implements Listener {
         plugin = this;
         fileM = new FileManager();
         fileM.LoadFiles();
-        this.protocolManager = ProtocolLibrary.getProtocolManager();
+
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(plugin), this);
-        defenceTask= new DefenceTask(plugin,10);
+        defenceTask= new DefenceTask(plugin,5);
 
-        new TabComplete();
-
+        tabComplete = new TabComplete();
 
         Objects.requireNonNull(plugin.getCommand("serverdefence")).setExecutor(new DefenceCommand());
 
@@ -63,8 +61,8 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        if(protocolManager!=null) {
-            protocolManager.removePacketListeners(this);
+        if(tabComplete.tabCompleteOld!=null&&tabComplete.tabCompleteOld.protocolManager!=null) {
+            tabComplete.tabCompleteOld.protocolManager.removePacketListeners(this);
         }
         if(discordBot!=null){
             discordBot.disable();
