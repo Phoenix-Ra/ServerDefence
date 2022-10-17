@@ -52,7 +52,7 @@ public class PlayerListener implements Listener {
 
         //permissions check
         if(!isAdmin) {
-            if (e.getPlayer().isOp()) {
+            if (e.getPlayer().isOp() && plugin.fileM.getConfig("config").getBoolean("KickUnauthorizedOp")) {
                 e.setCancelled(true);
                 e.getPlayer().kickPlayer(LangKeys.PREFIX.toString() + LangKeys.KICK_OP);
                 return;
@@ -91,13 +91,6 @@ public class PlayerListener implements Listener {
                     e.getPlayer().sendMessage(LangKeys.PREFIX.toString() + LangKeys.CONSOLE_ONLY_CMD);
                     return;
                 }
-                /*
-                if (plugin.fileM.cmdC.getStringList("console").contains(word)) {
-                    e.setCancelled(true);
-                    e.getPlayer().sendMessage(LangKeys.PREFIX.toString() + LangKeys.CONSOLE_ONLY_CMD);
-                    return;
-
-                }*/
             }
         }
 
