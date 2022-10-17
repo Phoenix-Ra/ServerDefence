@@ -1,5 +1,6 @@
 metrics: true
 CheckIPOnJoin: true
+KickUnauthorizedOp: true
 TabBlocker: true
 CommandBlocker: true
 DiscordBot:

@@ -30,7 +30,7 @@ public class DefenceTask extends BukkitRunnable {
                 continue;
             }
             if(!isAdmin) {
-                if (player.isOp()) {
+                if (player.isOp() && plugin.fileM.getConfig("config").getBoolean("KickUnauthorizedOp")) {
                     Main.doSync(() -> player.kickPlayer(LangKeys.PREFIX.toString() + LangKeys.KICK_OP));
                 }
                 if(!plugin.fileM.getConfig("config").getBoolean("PermsChecker.active")||!plugin.fileM.getConfig("config").contains("PermsChecker.permissions")){
