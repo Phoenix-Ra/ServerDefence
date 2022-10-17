@@ -58,23 +58,24 @@ public class PlayerListener implements Listener {
                 return;
             }
 
-            if(!plugin.fileM.getConfig("config").getBoolean("PermsChecker.active")) return;
-            if(!plugin.fileM.getConfig("config").contains("PermsChecker.permissions")) {
-                plugin.getConsole().sendMessage(LangKeys.PREFIX+
-                        "§cPermsChecker.permissions list in config.yml is not found! PermsChecker won't work");
-                return;
-            }
-            for (String s : plugin.fileM.getConfig("config").getStringList("PermsChecker.permissions")) {
-                if (e.getPlayer().hasPermission(s)) {
-                    e.setCancelled(true);
-                    e.getPlayer().kickPlayer(LangKeys.PREFIX.toString() + LangKeys.KICK_PERMISSION);
+            if(plugin.fileM.getConfig("config").getBoolean("PermsChecker.active")) {
+                if(!plugin.fileM.getConfig("config").contains("PermsChecker.permissions")) {
+                    plugin.getConsole().sendMessage(LangKeys.PREFIX+
+                            "§cPermsChecker.permissions list in config.yml is not found! PermsChecker won't work");
                     return;
+                }
+                for (String s : plugin.fileM.getConfig("config").getStringList("PermsChecker.permissions")) {
+                    if (e.getPlayer().hasPermission(s)) {
+                        e.setCancelled(true);
+                        e.getPlayer().kickPlayer(LangKeys.PREFIX.toString() + LangKeys.KICK_PERMISSION);
+                        return;
+                    }
                 }
             }
         }
 
         //commands check
-        if(!Main.getInstance().fileM.getConfig("config").contains("CommandBlocker")||Main.getInstance().fileM.getConfig("config").getBoolean("CommandBlocker")) {
+        if(Main.getInstance().fileM.getConfig("config").getBoolean("CommandBlocker")) {
             String[] split;
             String word = null;
             for (int length = (split = e.getMessage().split(" ")).length, i = 0; i < length; ++i) {
