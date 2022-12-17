@@ -51,6 +51,14 @@ dependencies {
 
     implementation "net.dv8tion:JDA:4.4.0_350"
 }
+
+compileJava {
+    dependsOn(clean)
+    options.encoding = "UTF-8"
+}
+build {
+    dependsOn(shadowJar)
+}
 shadowJar {
     archiveBaseName.set('ServerDefence')
     archiveClassifier.set('shadowed')
