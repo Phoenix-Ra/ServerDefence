@@ -1,5 +1,7 @@
 package me.phoenixra.serverdefence;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import me.phoenixra.serverdefence.other.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -18,9 +20,12 @@ import java.util.Objects;
 
 public class Main extends JavaPlugin implements Listener {
     private static Main plugin;
-    protected FileManager fileM;
-    protected DefenceTask defenceTask;
-    protected DiscordBot discordBot;
+    @Getter(AccessLevel.PROTECTED)
+    private FileManager fileM;
+    @Getter(AccessLevel.PROTECTED)
+    private DefenceTask defenceTask;
+    @Getter(AccessLevel.PROTECTED)
+    private DiscordBot discordBot;
     private TabComplete tabComplete;
 
     @Override
@@ -31,7 +36,7 @@ public class Main extends JavaPlugin implements Listener {
         fileM.LoadFiles();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(plugin), this);
-        defenceTask= new DefenceTask(plugin,5);
+        defenceTask = new DefenceTask(plugin,5);
 
         tabComplete = new TabComplete();
 
@@ -46,7 +51,7 @@ public class Main extends JavaPlugin implements Listener {
         ChannelControl.registerChannels(bml);
 
         if(getConfig().getBoolean("DiscordBot.active")){
-            discordBot =new DiscordBot(this);
+            discordBot = new DiscordBot(this);
         }
 
         if ((!fileM.getConfig("config").contains("metrics")||fileM.getConfig("config").getBoolean("metrics")) && (new Metrics(this, 14524)).isEnabled()) {

@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class ChannelControl {
 
     public static void registerChannels(ByteMessageListener bml) {
-        FileConfiguration config = Main.getInstance().fileM.getConfig("config");
+        FileConfiguration config = Main.getInstance().getFileM().getConfig("config");
         ChannelControl.register(bml, "MC|Brand");
         ChannelControl.register(bml, "minecraft:brand");
         if (config.getBoolean("modsBlocker.5zig.block")) {

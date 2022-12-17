@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 public class ByteMessageListener implements PluginMessageListener {
 
     public void onPluginMessageReceived(String channel, Player player, byte[] value) {
-        FileConfiguration config = Main.getInstance().fileM.getConfig("config");
+        FileConfiguration config = Main.getInstance().getFileM().getConfig("config");
         if (config.getBoolean("modsBlocker.5zig.enabled")) {
             this.block5Zig(player, channel);
         }
@@ -85,7 +85,7 @@ public class ByteMessageListener implements PluginMessageListener {
         if (value.contains("fabric") &&!player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.fabric")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.fabric.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.fabric.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cFabric usage detected! Player: "+player.getName();
@@ -97,7 +97,7 @@ public class ByteMessageListener implements PluginMessageListener {
         if ((value.contains("fml") || value.contains("forge")) &&!player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.forge")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.forge.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.forge.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cForge usage detected! Player: "+player.getName();
@@ -110,7 +110,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 &&!player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.liteLoader")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.liteLoader.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.liteLoader.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cliteLoader usage detected! Player: "+player.getName();
@@ -122,7 +122,7 @@ public class ByteMessageListener implements PluginMessageListener {
         if (value.contains("rift") &&!player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.rift")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.rift.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.rift.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cRift usage detected! Player: "+player.getName();
@@ -146,7 +146,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 !player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.winterWare")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.winterWare.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.winterWare.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cWinterware usage detected! Player: "+player.getName();
@@ -159,7 +159,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 !player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.vape")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.vape.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.vape.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cVape usage detected! Player: "+player.getName();
@@ -172,7 +172,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 !player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.hyperium")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.hyperium.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.hyperium.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cHyperium usage detected! Player: "+player.getName();
@@ -185,7 +185,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 !player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.pixelClient")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.pixelClient.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.pixelClient.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cPixelClient usage detected! Player: "+player.getName();
@@ -198,7 +198,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 !player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.lunarClient")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.lunarClient.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.lunarClient.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cLunarClient usage detected! Player: "+player.getName();
@@ -211,7 +211,7 @@ public class ByteMessageListener implements PluginMessageListener {
                 !player.hasPermission("serverDef.admin")&&
                 !player.hasPermission("serverDef.bypass.modBlocker.emc")) {
 
-            for(String s : Main.getInstance().fileM.getConfig("config").getStringList("modsBlocker.emc.punishment")){
+            for(String s : Main.getInstance().getFileM().getConfig("config").getStringList("modsBlocker.emc.punishment")){
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),Utils.colorFormat(s.replace("{player}",player.getName())));
             }
             String notifyMessage = LangKeys.PREFIX+"&cEMC usage detected! Player: "+player.getName();

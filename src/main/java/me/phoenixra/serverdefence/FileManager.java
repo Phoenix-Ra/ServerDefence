@@ -30,7 +30,11 @@ public class FileManager {
 
             File file;
             for (String fileName : examples){
-                file=new File(Main.getInstance().getDataFolder().getPath()+"/"+fileName);
+                file = new File(Main.getInstance().getDataFolder(), fileName);
+                if(file.exists()) {
+                    configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
+                    continue;
+                }
                 InputStream is =  Main.getInstance().getResource(fileName);
                 if(is!=null) {
                     try {

@@ -23,7 +23,7 @@ public class DefenceCommand implements CommandExecutor {
         try {
 
             if (args[0].equalsIgnoreCase("reload")) {
-                Main.getInstance().fileM.reloadFiles();
+                Main.getInstance().getFileM().reloadFiles();
                 if (Main.getInstance().getServerVersion() > 12) {
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         p.updateCommands();
@@ -42,12 +42,12 @@ public class DefenceCommand implements CommandExecutor {
                     return true;
 
                 }
-                if (Main.getInstance().fileM.getConfig("data").contains("admins." + name)) {
+                if (Main.getInstance().getFileM().getConfig("data").contains("admins." + name)) {
                     sender.sendMessage(LangKeys.PREFIX + "§aPlayer IP successfully §eupdated");
                 } else {
                     sender.sendMessage(LangKeys.PREFIX + "§aPlayer successfully §eadded §ato the admin list");
                 }
-                Main.getInstance().fileM.setPlayerAdmin(name, ip);
+                Main.getInstance().getFileM().setPlayerAdmin(name, ip);
 
             } else if (args[0].equalsIgnoreCase("removePlayer")) {
                 if (args.length < 2) {
@@ -55,22 +55,22 @@ public class DefenceCommand implements CommandExecutor {
                     return true;
                 }
                 String name = args[1];
-                if (!Main.getInstance().fileM.getConfig("data").contains("admins." + name)) {
+                if (!Main.getInstance().getFileM().getConfig("data").contains("admins." + name)) {
                     sender.sendMessage(LangKeys.PREFIX + "§cPlayer wasn't added to the admin list");
                     return true;
                 }
-                Main.getInstance().fileM.removePlayerAdmin(name);
+                Main.getInstance().getFileM().removePlayerAdmin(name);
                 sender.sendMessage(LangKeys.PREFIX + "§aPlayer successfully §eremoved §afrom the admin list");
 
             } else if (args[0].equalsIgnoreCase("adminList")) {
-                if (Main.getInstance().fileM.getConfig("data").getConfigurationSection("admins").getKeys(false).size() == 0) {
+                if (Main.getInstance().getFileM().getConfig("data").getConfigurationSection("admins").getKeys(false).size() == 0) {
                     sender.sendMessage(LangKeys.PREFIX + "§cAdmin list is empty.");
                     return true;
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.append("\n§c-----------------§eAdminList§c-----------------\n");
-                for (String p : Main.getInstance().fileM.getConfig("data").getConfigurationSection("admins").getKeys(false)) {
-                    sb.append("§c|  §fPlayer: §e").append(p).append("  §fIP: §e").append(Main.getInstance().fileM.getConfig("data").getString("admins." + p)).append("\n");
+                for (String p : Main.getInstance().getFileM().getConfig("data").getConfigurationSection("admins").getKeys(false)) {
+                    sb.append("§c|  §fPlayer: §e").append(p).append("  §fIP: §e").append(Main.getInstance().getFileM().getConfig("data").getString("admins." + p)).append("\n");
                 }
                 sb.append("§c-----------------§eAdminList§c-----------------");
                 sender.sendMessage(sb.toString());

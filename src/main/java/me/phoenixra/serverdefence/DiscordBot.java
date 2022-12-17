@@ -77,7 +77,7 @@ public class DiscordBot {
     protected void verifyCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         String code = event.getMessage().replace("/verify ", "");
-        if (plugin.fileM.getConfig("data").contains("admins." + player.getName() + ".dsId")) {
+        if (plugin.getFileM().getConfig("data").contains("admins." + player.getName() + ".dsId")) {
             player.sendMessage("§cYour account is already verified");
             return;
         }
@@ -101,12 +101,12 @@ public class DiscordBot {
                 player.sendMessage("§cError! Can't find you in guild. Please write something in guild and try again");
                 return;
             }
-            plugin.fileM.setPlayerDiscord(player.getName(), discordid);
+            plugin.getFileM().setPlayerDiscord(player.getName(), discordid);
             uuidCodeMap.remove(player.getUniqueId());
             uuidIdMap.remove(player.getUniqueId());
-            plugin.defenceTask.removeVerify(player);
+            plugin.getDefenceTask().removeVerify(player);
 
-            for (String s : plugin.fileM.getConfig("config").getStringList("DiscordBot.cmds-on-verify")) {
+            for (String s : plugin.getFileM().getConfig("config").getStringList("DiscordBot.cmds-on-verify")) {
                 s = s.replace("{player}", player.getName());
                 String finalS = s;
                 Main.doSync(() ->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalS));
@@ -172,7 +172,7 @@ public class DiscordBot {
 
         uuidCodeMap.put(target.getUniqueId(), code);
         uuidIdMap.put(target.getUniqueId(), userID);
-        plugin.defenceTask.addVerify(target, 3600L);
+        plugin.getDefenceTask().addVerify(target, 3600L);
         return code;
     }
 
@@ -198,7 +198,7 @@ public class DiscordBot {
     }
 
     protected boolean isAlreadyVerified(String nick, String dsId) {
-        FileConfiguration data = Main.getInstance().fileM.getConfig("data");
+        FileConfiguration data = Main.getInstance().getFileM().getConfig("data");
         if (data.contains("admins." + nick + ".dsId")) return true;
         for (String s : data.getConfigurationSection("admins").getKeys(false)) {
             if (!data.contains("admins." + s + ".dsId")) continue;
@@ -211,7 +211,7 @@ public class DiscordBot {
 
     protected String getNickByUserId(String dsId) {
         String nick = null;
-        FileConfiguration data = Main.getInstance().fileM.getConfig("data");
+        FileConfiguration data = Main.getInstance().getFileM().getConfig("data");
         for (String s : data.getConfigurationSection("admins").getKeys(false)) {
             if (!data.contains("admins." + s + ".dsId")) continue;
             if (data.getString("admins." + s + ".dsId").equalsIgnoreCase(dsId)) {
@@ -228,7 +228,7 @@ public class DiscordBot {
         @Override
         public void onReady(ReadyEvent readyEvent) {
             try {
-                guild = readyEvent.getJDA().getGuildById(Objects.requireNonNull(plugin.fileM.getConfig("config").getString("DiscordBot.guildID")));
+                guild = readyEvent.getJDA().getGuildById(Objects.requireNonNull(plugin.getFileM().getConfig("config").getString("DiscordBot.guildID")));
                 if (guild == null) {
                     Main.getInstance().getConsole().sendMessage(LangKeys.PREFIX + "§cDiscordBot: Guild not found");
                     return;
@@ -269,9 +269,9 @@ public class DiscordBot {
                 {
                     usr[0] = user;
                     if (cmd.equalsIgnoreCase("verify")) {
-                        if (plugin.fileM.getConfig("config").contains("DiscordBot.admin_ds-role") &&
+                        if (plugin.getFileM().getConfig("config").contains("DiscordBot.admin_ds-role") &&
                                 usr[0].getRoles().stream().filter(role ->
-                                        role.getId().equalsIgnoreCase(plugin.fileM.getConfig("config").
+                                        role.getId().equalsIgnoreCase(plugin.getFileM().getConfig("config").
                                                 getString("DiscordBot.admin_ds-role"))).findAny().orElse(null) == null) {
 
                             event.reply("You don't have permission").queue();
@@ -279,7 +279,7 @@ public class DiscordBot {
                         }
 
                         String nick = Objects.requireNonNull(event.getOption("nickname")).getAsString();
-                        if (plugin.fileM.getConfig("data").contains("admins." + nick)) {
+                        if (plugin.getFileM().getConfig("data").contains("admins." + nick)) {
                             if (isAlreadyVerified(nick, event.getUser().getId())) {
                                 eb.clear();
                                 eb.setColor(Color.RED);
@@ -308,9 +308,9 @@ public class DiscordBot {
                         }
 
                     } else if (cmd.equalsIgnoreCase("unverify")) {
-                        if (plugin.fileM.getConfig("config").contains("DiscordBot.admin_ds-role") &&
+                        if (plugin.getFileM().getConfig("config").contains("DiscordBot.admin_ds-role") &&
                                 usr[0].getRoles().stream().filter(role ->
-                                        role.getId().equalsIgnoreCase(plugin.fileM.getConfig("config").
+                                        role.getId().equalsIgnoreCase(plugin.getFileM().getConfig("config").
                                                 getString("DiscordBot.admin_ds-role"))).findAny().orElse(null) == null) {
 
                             event.reply("You don't have permission").queue();
@@ -325,7 +325,7 @@ public class DiscordBot {
                             event.replyEmbeds(eb.build()).queue();
                             return;
                         }
-                        plugin.fileM.setPlayerDiscord(nick, null);
+                        plugin.getFileM().setPlayerDiscord(nick, null);
 
                         eb.clear();
                         eb.setColor(Color.GREEN);
@@ -334,9 +334,9 @@ public class DiscordBot {
 
 
                     } else if (cmd.equalsIgnoreCase("set_ip")) {
-                        if (plugin.fileM.getConfig("config").contains("DiscordBot.admin_ds-role") &&
+                        if (plugin.getFileM().getConfig("config").contains("DiscordBot.admin_ds-role") &&
                                 usr[0].getRoles().stream().filter(role ->
-                                        role.getId().equalsIgnoreCase(plugin.fileM.getConfig("config").
+                                        role.getId().equalsIgnoreCase(plugin.getFileM().getConfig("config").
                                                 getString("DiscordBot.admin_ds-role"))).findAny().orElse(null) == null) {
 
                             event.reply("You don't have permission").queue();
@@ -352,7 +352,7 @@ public class DiscordBot {
                             return;
                         }
                         String ip = Objects.requireNonNull(event.getOption("ip")).getAsString();
-                        plugin.fileM.setPlayerAdmin(nick, ip);
+                        plugin.getFileM().setPlayerAdmin(nick, ip);
 
                         eb.clear();
                         eb.setColor(Color.GREEN);
@@ -360,9 +360,9 @@ public class DiscordBot {
 
                         event.replyEmbeds(eb.build()).queue();
                     } else if (cmd.equalsIgnoreCase("current_ip")) {
-                        if (plugin.fileM.getConfig("config").contains("DiscordBot.admin_ds-role") &&
+                        if (plugin.getFileM().getConfig("config").contains("DiscordBot.admin_ds-role") &&
                                 usr[0].getRoles().stream().filter(role ->
-                                        role.getId().equalsIgnoreCase(plugin.fileM.getConfig("config").
+                                        role.getId().equalsIgnoreCase(plugin.getFileM().getConfig("config").
                                                 getString("DiscordBot.admin_ds-role"))).findAny().orElse(null) == null) {
 
                             event.reply("You don't have permission").queue();
@@ -377,7 +377,7 @@ public class DiscordBot {
                             event.replyEmbeds(eb.build()).queue();
                             return;
                         }
-                        FileConfiguration data = plugin.fileM.getConfig("data");
+                        FileConfiguration data = plugin.getFileM().getConfig("data");
                         if (!data.contains("admins." + nick + ".ip")) {
                             eb.clear();
                             eb.setColor(Color.RED);
@@ -428,7 +428,7 @@ public class DiscordBot {
                     return;
                 }
 
-                for (String s : plugin.fileM.getConfig("config").getStringList("DiscordBot.cmds-on-verify")) {
+                for (String s : plugin.getFileM().getConfig("config").getStringList("DiscordBot.cmds-on-verify")) {
                     s = s.replace("{player}", player.getName());
                     String finalS = s;
                     Main.doSync(() ->Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalS));

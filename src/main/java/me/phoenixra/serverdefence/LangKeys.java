@@ -18,7 +18,7 @@ public enum LangKeys {
 
     @Override
     public String toString() {
-        return Utils.colorFormat(Main.getInstance().fileM.getConfig("lang").getString(this.value));
+        return Utils.colorFormat(Main.getInstance().getFileM().getConfig("lang").getString(this.value));
     }
 
 }

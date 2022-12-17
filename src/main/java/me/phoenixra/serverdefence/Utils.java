@@ -44,7 +44,7 @@ public class Utils {
             return;
         }
         for (Player p:Main.getInstance().getServer().getOnlinePlayers()){
-            if(Main.getInstance().fileM.getConfig("data").contains("admins."+p.getName())){
+            if(Main.getInstance().getFileM().getConfig("data").contains("admins."+p.getName())){
                 p.sendMessage(colorFormat(message));
             }
         }
