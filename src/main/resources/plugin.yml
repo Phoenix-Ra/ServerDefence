@@ -1,16 +1,30 @@
+#################################
+#######################################
+######## Author: PhoenixRa ##########
+############### 2022 ##################
+#################################
+######## Links ##########
+# Spigot: https://www.spigotmc.org/members/phoenixra.969595/
+# YouTube: https://www.youtube.com/channel/UCPlvJUaG6ZfdYasCjSFHoqw
+# GitHub: https://github.com/Phoenix-Ra
+######## Contact Info ##########
+# Discord: https://discord.gg/R2Wk5ZRXxp
+#################################
+
 name: ServerDefence
 main: me.phoenixra.serverdefence.Main
 version: ${projectVersion}
 website: https://www.spigotmc.org/resources/100438/
 description: Server Defence system
 author: PhoenixRa
+
 commands:
   serverdefence:
     description: main command
     usage: /sd help
     aliases: [sd]
 
-  permissions:
-    serverDef.admin:
-      description: Allows the usage of all commands
-      default: op
+permissions:
+  serverDef.admin:
+    description: Allows the usage of all commands
+    default: op

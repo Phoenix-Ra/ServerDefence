@@ -1,3 +1,16 @@
+#################################
+#######################################
+######## Author: PhoenixRa ##########
+############### 2022 ##################
+#################################
+######## Links ##########
+# Spigot: https://www.spigotmc.org/members/phoenixra.969595/
+# YouTube: https://www.youtube.com/channel/UCPlvJUaG6ZfdYasCjSFHoqw
+# GitHub: https://github.com/Phoenix-Ra
+######## Contact Info ##########
+# Discord: https://discord.gg/R2Wk5ZRXxp
+#################################
+
 prefix: '&7[&4ServerDefence&7] '
 console_only_cmd: '&cCommand is blocked'
 kick_permission: '&cYou are not allowed to have these permissions!'

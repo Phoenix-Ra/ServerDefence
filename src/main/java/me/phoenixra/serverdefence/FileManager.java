@@ -9,8 +9,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class FileManager {
     private final HashMap<String,File> files=new HashMap<>();
@@ -20,94 +24,32 @@ public class FileManager {
 
     protected void LoadFiles() {
         try {
-            //config
-            FileConfiguration configuration;
-            File file = new File(Main.getInstance().getDataFolder(), "config.yml");
-            files.put("config",file);
-            if(file.exists() && !file.isDirectory()) {
-                configuration = YamlConfiguration.loadConfiguration(file);
-                configs.put("config",configuration);
-                if(configuration.contains("adminsOnlyPerms")&&!configuration.contains("PermsChecker.permissions")){
-                    Main.getInstance().getConsole().sendMessage("§c[ServerDefence] Found outdated adminsOnlyPerms setting in config.yml, changing it to PermsChecker...");
-                    configuration.set("PermsChecker.active",true);
-                    configuration.set("PermsChecker.permissions",configuration.getList("adminsOnlyPerms"));
-                    configuration.set("adminsOnlyPerms",null);
-                    configuration.save(getFile("config"));
+            List<String> examples = Arrays.asList("config.yml","lang.yml","blocked-cmds.yml","tab_blocked-cmds.yml","data.yml");
+
+            new File(Main.getInstance().getDataFolder().getPath()).mkdir();
+
+            File file;
+            for (String fileName : examples){
+                file=new File(Main.getInstance().getDataFolder().getPath()+"/"+fileName);
+                InputStream is =  Main.getInstance().getResource(fileName);
+                if(is!=null) {
+                    try {
+                        Files.copy(is, Path.of(file.toURI()), StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if(fileName.contains("blocked-cmds")){
+                        fileName="cmd";
+                    }else if(fileName.contains("tab_blocked-cmds")){
+                        fileName="tab";
+                    }
+                    configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
                 }
-            }else {
-                configs.put("config", loadFromResource("config.yml", file));
-                getConfig("config").save(file);
-            }
-
-
-            //lang
-            file = new File(Main.getInstance().getDataFolder(), "lang.yml");
-            files.put("lang",file);
-            if(file.exists() && !file.isDirectory()) {
-                configs.put("lang",YamlConfiguration.loadConfiguration(file));
-            }else {
-                configuration = loadFromResource("lang.yml", file);
-                configs.put("lang",configuration);
-                assert configuration != null;
-                configuration.save(file);
-            }
-
-            //blocked-cmds.yml
-            file = new File(Main.getInstance().getDataFolder(), "blocked-cmds.yml");
-            files.put("cmd",file);
-            if(file.exists() && !file.isDirectory()) {
-                configs.put("cmd", YamlConfiguration.loadConfiguration(file));
-            }else {
-                configuration = loadFromResource("blocked-cmds.yml", file);
-                configs.put("cmd",configuration);
-                assert configuration != null;
-                configuration.save(file);
-            }
-
-            //tab
-            file = new File(Main.getInstance().getDataFolder(), "tab_blocked-cmds.yml");
-            files.put("tab",file);
-            if(file.exists() && !file.isDirectory()) {
-                configs.put("tab", YamlConfiguration.loadConfiguration(file));
-            }else {
-                configuration = loadFromResource("tab_blocked-cmds.yml", file);
-                configs.put("tab",configuration);
-                assert configuration != null;
-                configuration.save(file);
-            }
-
-
-            //data
-            file = new File(Main.getInstance().getDataFolder(), "data.yml");
-            files.put("data",file);
-            if(file.exists() && !file.isDirectory()) {
-                configs.put("data", YamlConfiguration.loadConfiguration(file));
-            }else {
-                if(!file.createNewFile()) throw new Exception("Couldn't create file data.yml");
-                configuration = YamlConfiguration.loadConfiguration(file);
-                configs.put("data",configuration);
-                configuration.save(file);
             }
         }catch (Exception e){
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage("§cWhoops...  Something went wrong while trying to load config files.\n §cContact with a developer  if you need help: https://www.spigotmc.org/members/phoenixra.969595/");
 
-        }
-    }
-
-    protected FileConfiguration loadFromResource(String name, File out) {
-        try {
-            InputStream is = Main.getInstance().getResource(name);
-            FileConfiguration f = YamlConfiguration.loadConfiguration(out);
-            if (is != null) {
-                InputStreamReader isReader = new InputStreamReader(is);
-                f.setDefaults(YamlConfiguration.loadConfiguration(isReader));
-                f.options().copyDefaults(true);
-                f.save(out);
-            }
-            return f;
-        } catch (IOException e) {
-            return null;
         }
     }
 
