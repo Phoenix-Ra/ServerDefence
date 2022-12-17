@@ -17,57 +17,53 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileManager {
-    private final HashMap<String,File> files=new HashMap<>();
-    private final HashMap<String,FileConfiguration> configs=new HashMap<>();
-
+    private final HashMap<String, File> files = new HashMap<>();
+    private final HashMap<String, FileConfiguration> configs = new HashMap<>();
 
 
     protected void LoadFiles() {
         try {
-            List<String> examples = Arrays.asList("config.yml","lang.yml","blocked-cmds.yml","tab_blocked-cmds.yml","data.yml");
+            List<String> files = Arrays.asList("config.yml", "lang.yml", "blocked-cmds.yml", "tab_blocked-cmds.yml", "data.yml");
 
             new File(Main.getInstance().getDataFolder().getPath()).mkdir();
 
             File file;
-            for (String fileName : examples){
+            for (String fileName : files) {
                 file = new File(Main.getInstance().getDataFolder(), fileName);
-                if(file.exists()) {
+                if (file.exists()) {
                     configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
                     continue;
                 }
-                InputStream is =  Main.getInstance().getResource(fileName);
-                if(is!=null) {
-                    try {
-                        Files.copy(is, Path.of(file.toURI()), StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    if(fileName.contains("blocked-cmds")){
-                        fileName="cmd";
-                    }else if(fileName.contains("tab_blocked-cmds")){
-                        fileName="tab";
-                    }
+                InputStream is = Main.getInstance().getResource(fileName);
+                if (is == null) {
+                    file.createNewFile();
                     configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
+                    continue;
                 }
+                try {
+                    Files.copy(is, Path.of(file.toURI()), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
+
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage("§cWhoops...  Something went wrong while trying to load config files.\n §cContact with a developer  if you need help: https://www.spigotmc.org/members/phoenixra.969595/");
 
         }
     }
 
-    protected void reloadFiles(){
-        for(String key : configs.keySet()){
+    protected void reloadFiles() {
+        for (String key : configs.keySet()) {
             configs.replace(key, YamlConfiguration.loadConfiguration(files.get(key)));
         }
     }
 
 
-
-
-    protected void setPlayerAdmin(String name, String ip){
-        getConfig("data").set("admins."+name+".ip",ip);
+    protected void setPlayerAdmin(String name, String ip) {
+        getConfig("data").set("admins." + name + ".ip", ip);
         try {
             getConfig("data").save(getFile("data"));
         } catch (IOException e) {
@@ -75,8 +71,8 @@ public class FileManager {
         }
     }
 
-    protected void removePlayerAdmin(String name){
-        getConfig("data").set("admins."+name,null);
+    protected void removePlayerAdmin(String name) {
+        getConfig("data").set("admins." + name, null);
         try {
             getConfig("data").save(getFile("data"));
         } catch (IOException e) {
@@ -84,8 +80,9 @@ public class FileManager {
         }
 
     }
-    protected void setPlayerDiscord(String name, String dsID){
-        getConfig("data").set("admins."+name+".dsId",dsID);
+
+    protected void setPlayerDiscord(String name, String dsID) {
+        getConfig("data").set("admins." + name + ".dsId", dsID);
         try {
             getConfig("data").save(getFile("data"));
         } catch (IOException e) {
@@ -93,23 +90,23 @@ public class FileManager {
         }
     }
 
-    protected boolean isAllowedCommandAction(CommandSender sender, String cmd, boolean suggestedCmd){
-        if(sender instanceof ConsoleCommandSender) return true;
+    protected boolean isAllowedCommandAction(CommandSender sender, String cmd, boolean suggestedCmd) {
+        if (sender instanceof ConsoleCommandSender) return true;
 
-        if(suggestedCmd){
-            if(getConfig("tab").getStringList("cmds").contains(cmd)) return false;
-            if(getConfig("tab").getConfigurationSection("permission-only")==null) return true;
-            for(String permission: getConfig("tab").getConfigurationSection("permission-only").getKeys(false)){
-                if(getConfig("tab").getStringList("permission-only."+permission).contains(cmd)){
+        if (suggestedCmd) {
+            if (getConfig("tab").getStringList("cmds").contains(cmd)) return false;
+            if (getConfig("tab").getConfigurationSection("permission-only") == null) return true;
+            for (String permission : getConfig("tab").getConfigurationSection("permission-only").getKeys(false)) {
+                if (getConfig("tab").getStringList("permission-only." + permission).contains(cmd)) {
                     return sender.hasPermission(permission);
                 }
             }
 
-        }else {
-            if(getConfig("cmd").getStringList("cmds").contains(cmd)) return false;
-            if(getConfig("cmd").getConfigurationSection("permission-only")==null) return true;
-            for(String permission: getConfig("cmd").getConfigurationSection("permission-only").getKeys(false)){
-                if(getConfig("cmd").getStringList("permission-only."+permission).contains(cmd)){
+        } else {
+            if (getConfig("cmd").getStringList("cmds").contains(cmd)) return false;
+            if (getConfig("cmd").getConfigurationSection("permission-only") == null) return true;
+            for (String permission : getConfig("cmd").getConfigurationSection("permission-only").getKeys(false)) {
+                if (getConfig("cmd").getStringList("permission-only." + permission).contains(cmd)) {
                     return sender.hasPermission(permission);
                 }
             }
@@ -119,10 +116,21 @@ public class FileManager {
         return true;
     }
 
-    protected FileConfiguration getConfig(String type){
+    protected FileConfiguration getConfig(String type) {
+        if(type.contains("cmd")){
+            type="blocked-cmds";
+        }else if(type.contains("tab")){
+            type="tab_blocked-cmds";
+        }
         return configs.get(type);
     }
-    private File getFile(String type){
+
+    private File getFile(String type) {
+        if(type.contains("cmd")){
+            type="blocked-cmds";
+        }else if(type.contains("tab")){
+            type="tab_blocked-cmds";
+        }
         return files.get(type);
     }
 
