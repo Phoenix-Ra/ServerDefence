@@ -3,6 +3,7 @@ CheckIPOnJoin: true
 KickUnauthorizedOp: true
 TabBlocker: true
 CommandBlocker: true
+UUIDSpoofFix: true
 DiscordBot:
   active: false
   guildID: your_guild_id
