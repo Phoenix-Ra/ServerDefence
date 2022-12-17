@@ -20,12 +20,10 @@ import java.util.Objects;
 
 public class Main extends JavaPlugin implements Listener {
     private static Main plugin;
-    @Getter(AccessLevel.PROTECTED)
-    private FileManager fileM;
-    @Getter(AccessLevel.PROTECTED)
-    private DefenceTask defenceTask;
-    @Getter(AccessLevel.PROTECTED)
-    private DiscordBot discordBot;
+    @Getter(AccessLevel.PROTECTED) private FileManager fileM;
+    @Getter(AccessLevel.PROTECTED) private DefenceTask defenceTask;
+    @Getter(AccessLevel.PROTECTED) private DiscordBot discordBot;
+
     private TabComplete tabComplete;
 
     @Override
