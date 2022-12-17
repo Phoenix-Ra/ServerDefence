@@ -1,6 +1,6 @@
 name: ServerDefence
-main: FenixRa.ServerDefence.Main
-version: 3.2
+main: me.phoenixra.serverdefence.Main
+version: ${projectVersion}
 website: https://www.spigotmc.org/resources/100438/
 description: Server Defence system
 author: PhoenixRa

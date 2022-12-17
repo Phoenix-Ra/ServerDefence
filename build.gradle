@@ -4,8 +4,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-group 'me.phoenixra.serverdefence'
-version '3.3-SNAPSHOT'
 
 repositories {
 
@@ -56,6 +54,13 @@ compileJava {
     dependsOn(clean)
     options.encoding = "UTF-8"
 }
+
+processResources {
+    filesNotMatching(["**/*.png", "**/models/**", "**/textures/**"]) {
+        expand projectVersion: project.version
+    }
+}
+
 build {
     dependsOn(shadowJar)
 }
@@ -66,3 +71,5 @@ shadowJar {
 
     minimize()
 }
+group 'me.phoenixra.serverdefence'
+version = findProperty("version")
