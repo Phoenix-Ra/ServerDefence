@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileManager {
-    private final HashMap<String, File> files = new HashMap<>();
+    private final HashMap<String, File> filesMap = new HashMap<>();
     private final HashMap<String, FileConfiguration> configs = new HashMap<>();
 
 
@@ -32,12 +32,14 @@ public class FileManager {
                 file = new File(Main.getInstance().getDataFolder(), fileName);
                 if (file.exists()) {
                     configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
+                    filesMap.put(fileName.split("\\.")[0],file);
                     continue;
                 }
                 InputStream is = Main.getInstance().getResource(fileName);
                 if (is == null) {
                     file.createNewFile();
                     configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
+                    filesMap.put(fileName.split("\\.")[0],file);
                     continue;
                 }
                 try {
@@ -46,6 +48,7 @@ public class FileManager {
                     ex.printStackTrace();
                 }
                 configs.put(fileName.split("\\.")[0], YamlConfiguration.loadConfiguration(file));
+                filesMap.put(fileName.split("\\.")[0],file);
 
             }
         } catch (Exception e) {
@@ -57,7 +60,7 @@ public class FileManager {
 
     protected void reloadFiles() {
         for (String key : configs.keySet()) {
-            configs.replace(key, YamlConfiguration.loadConfiguration(files.get(key)));
+            configs.replace(key, YamlConfiguration.loadConfiguration(filesMap.get(key)));
         }
     }
 
@@ -131,7 +134,7 @@ public class FileManager {
         }else if(type.contains("tab")){
             type="tab_blocked-cmds";
         }
-        return files.get(type);
+        return filesMap.get(type);
     }
 
 }
