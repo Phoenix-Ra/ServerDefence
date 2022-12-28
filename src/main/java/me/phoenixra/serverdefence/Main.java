@@ -1,8 +1,12 @@
 package me.phoenixra.serverdefence;
 
+import io.github.slimjar.app.builder.ApplicationBuilder;
+import io.github.slimjar.resolver.data.Repository;
+import io.github.slimjar.resolver.mirrors.SimpleMirrorSelector;
 import lombok.AccessLevel;
 import lombok.Getter;
 import me.phoenixra.serverdefence.other.Metrics;
+import me.phoenixra.serverdefence.other.SlimJarLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,11 +14,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import java.util.Objects;
 
 
@@ -25,7 +35,22 @@ public class Main extends JavaPlugin implements Listener {
     @Getter(AccessLevel.PROTECTED) private DiscordBot discordBot;
 
     private TabComplete tabComplete;
-
+    @Override
+    public void onLoad() {
+        getLogger().info("Downloading dependencies...");
+        try {
+            Path downloadPath = Paths.get(getDataFolder().getPath() + File.separator + "libs");
+            ApplicationBuilder.appending("ServerDefence")
+                    .logger(new SlimJarLogger(this))
+                    .downloadDirectoryPath(downloadPath)
+                    .mirrorSelector((a, b) -> a)
+                    .internalRepositories(Collections.singleton(new Repository(new URL(SimpleMirrorSelector.ALT_CENTRAL_URL))))
+                    .build();
+        } catch (IOException | ReflectiveOperationException | URISyntaxException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        getLogger().info("Dependencies successfully downloaded");
+    }
     @Override
     public void onEnable() {
         getConsole().sendMessage("§fInitializing §eServerDefence §fversion §e"+ this.getDescription().getVersion());
